@@ -1,20 +1,19 @@
 function createGenerator() {
-  let start = 0
+  let count = 0
+  let initialVal = 0
+  let secondaryVal = 1
+  let resultVal
+  let storeInitVal
 
   return function* generator(length) {
-    let fiboArr
-    while (start < length) {
-      if (fiboArr !== undefined) {
-        if (fiboArr.length === 1) {
-          fiboArr = [...fiboArr, 1]
-        } else {
-          fiboArr = [...fiboArr, fiboArr[start - 2] + fiboArr[start - 1]]
-        }
-      } else {
-        fiboArr = [0]
-      }
-      yield fiboArr
-      start += 1
+    while (count < length) {
+      resultVal = initialVal + secondaryVal
+      storeInitVal = initialVal
+      initialVal = secondaryVal
+      secondaryVal = resultVal
+
+      count += 1
+      yield storeInitVal
     }
   }
 }
@@ -23,5 +22,5 @@ const generatorFunction = createGenerator()
 const generatorObj = generatorFunction(14)
 
 for (let index of generatorObj) {
-    console.log(index)
+  console.log(index)
 }

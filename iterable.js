@@ -1,23 +1,21 @@
 function createIterable(length) {
-  let start = 0
-  let fiboArr
+  let count = 0
+  let initialVal = 0
+  let secondaryVal = 1
+  let resultVal
+  let storeInitVal
 
   return {
     [Symbol.iterator]() {
       return {
         next() {
-          if (start < length) {
-            if (fiboArr !== undefined) {
-              if (fiboArr.length === 1) {
-                fiboArr = [...fiboArr, 1]
-              } else {
-                fiboArr = [...fiboArr, fiboArr[start - 2] + fiboArr[start - 1]]
-              }
-            } else {
-              fiboArr = [0]
-            }
-            start += 1
-            return { value: fiboArr, done: false }
+          if (count < length) {
+            resultVal = initialVal + secondaryVal
+            storeInitVal = initialVal
+            initialVal = secondaryVal
+            secondaryVal = resultVal
+            count += 1
+            return { value: storeInitVal, done: false }
           }
           return { value: undefined, done: true }
         },
@@ -28,6 +26,6 @@ function createIterable(length) {
 
 const iterator = createIterable(14)
 
-for (let index of iterator) {
-    console.log(index)
+for (const index of iterator) {
+  console.log(index)
 }
